@@ -1,0 +1,13 @@
+services:
+  fluent-bit:
+    image: fluent/fluent-bit:latest
+    container_name: fluent-bit
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "24224:24224"
+      - "24224:24224/udp"
+    volumes:
+      - ${HOME}/apps/fluent-bit/fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf:ro
+      - ${HOME}/apps/fluent-bit/parsers.conf:/fluent-bit/etc/parsers.conf:ro
