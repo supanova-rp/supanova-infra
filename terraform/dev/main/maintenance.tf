@@ -8,6 +8,22 @@ resource "aws_s3_bucket" "supanova_db_backup_dev" {
   }
 }
 
+# Add lifecycle rule to auto-delete backups after 90 days
+resource "aws_s3_bucket_lifecycle_configuration" "supanova_db_backup_dev_lifecycle" {
+  bucket = aws_s3_bucket.supanova_db_backup_dev.id
+
+  rule {
+    id     = "delete-old-backups"
+    status = "Enabled"
+
+    filter {}
+
+    expiration {
+      days = 90
+    }
+  }
+}
+
 # Create IAM user
 resource "aws_iam_user" "supanova_maintenance_dev" {
   name = "supanova-maintenance-dev"
@@ -66,12 +82,12 @@ resource "aws_iam_access_key" "supanova_maintenance_dev_key" {
 }
 
 # Outputs
-output "supanova_maintenance_access_key_id" {
+output "supanova_maintenance_dev_access_key_id" {
   description = "Access Key ID for supanova-maintenance-dev user"
   value       = aws_iam_access_key.supanova_maintenance_dev_key.id
 }
 
-output "supanova_maintenance_access_key_secret" {
+output "supanova_maintenance_dev_access_key_secret" {
   description = "Secret Access Key for supanova-maintenance-dev user"
   value       = aws_iam_access_key.supanova_maintenance_dev_key.secret
   sensitive   = true

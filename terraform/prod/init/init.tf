@@ -29,7 +29,7 @@ resource "aws_iam_policy" "supanova_infra_prod_policy" {
     Version = "2012-10-17"
     Statement = [
       {
-        Sid    = "ManageBucket"
+        Sid    = "ManageAssetsBucket"
         Effect = "Allow"
         Action = [
           "s3:GetBucketLocation",
@@ -41,7 +41,65 @@ resource "aws_iam_policy" "supanova_infra_prod_policy" {
         ]
         Resource = "arn:aws:s3:::supanova-prod"
       },
-
+      {
+        Sid    = "ManageBackupBucket"
+        Effect = "Allow"
+        Action = [
+          "s3:*"
+        ]
+        Resource = "arn:aws:s3:::supanova-db-backup-prod"
+      },
+      {
+        Sid    = "IAMUserManagement"
+        Effect = "Allow"
+        Action = [
+          "iam:CreateUser",
+          "iam:DeleteUser",
+          "iam:GetUser",
+          "iam:ListUserTags",
+          "iam:TagUser",
+          "iam:UntagUser"
+        ]
+        Resource = "arn:aws:iam::*:user/supanova-maintenance-prod"
+      },
+      {
+        Sid    = "IAMPolicyManagement"
+        Effect = "Allow"
+        Action = [
+          "iam:CreatePolicy",
+          "iam:DeletePolicy",
+          "iam:GetPolicy",
+          "iam:GetPolicyVersion",
+          "iam:ListPolicyVersions",
+          "iam:CreatePolicyVersion",
+          "iam:DeletePolicyVersion",
+          "iam:SetDefaultPolicyVersion",
+          "iam:ListEntitiesForPolicy"
+        ]
+        Resource = "arn:aws:iam::*:policy/supanova_maintenance_prod_policy"
+      },
+      {
+        Sid    = "IAMPolicyAttachment"
+        Effect = "Allow"
+        Action = [
+          "iam:AttachUserPolicy",
+          "iam:DetachUserPolicy",
+          "iam:ListAttachedUserPolicies"
+        ]
+        Resource = "arn:aws:iam::*:user/supanova-maintenance-prod"
+      },
+      {
+        Sid    = "IAMAccessKeyManagement"
+        Effect = "Allow"
+        Action = [
+          "iam:CreateAccessKey",
+          "iam:DeleteAccessKey",
+          "iam:GetAccessKeyLastUsed",
+          "iam:ListAccessKeys",
+          "iam:UpdateAccessKey"
+        ]
+        Resource = "arn:aws:iam::*:user/supanova-maintenance-prod"
+      },
       {
         Sid    = "CloudFront"
         Effect = "Allow"
