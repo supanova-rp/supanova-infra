@@ -9,5 +9,5 @@ services:
       - "24224:24224"
       - "24224:24224/udp"
     volumes:
-      - ${HOME}/apps/supanova-infra/fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf:ro
-      - ${HOME}/apps/supanova-infra/parsers.conf:/fluent-bit/etc/parsers.conf:ro
+      - ${HOME}/apps/supanova-infra/fluent-bit/fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf:ro
+      - ${HOME}/apps/supanova-infra/fluent-bit/parsers.conf:/fluent-bit/etc/parsers.conf:ro
