@@ -4,7 +4,7 @@ services:
     container_name: supanova-server
     ports:
       - "${SERVER_PORT}:${SERVER_PORT}"
-    env_file: .env
+    env_file: .env.server
     network_mode: host # TODO: remove after postgres is inside docker
     restart: unless-stopped
     healthcheck:
@@ -24,7 +24,7 @@ services:
   supanova-maintenance:
     image: jdgarner/supanova-maintenance:latest
     container_name: supanova-maintenance
-    env_file: .env
+    env_file: .env.maintenance
     network_mode: host # TODO: remove after postgres is inside docker
     restart: unless-stopped
     logging:
@@ -39,8 +39,7 @@ services:
     image: fluent/fluent-bit:latest
     container_name: fluent-bit
     restart: unless-stopped
-    env_file:
-      - .env
+    env_file: .env.fluent-bit
     ports:
       - "24224:24224" # TODO: remove after postgres is inside docker
       - "24224:24224/udp"
