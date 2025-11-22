@@ -7,6 +7,9 @@ services:
     env_file: .env.server
     network_mode: host # TODO: remove after postgres is inside docker
     restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
     healthcheck:
       test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:${SERVER_PORT}/v2/health || exit 1"]
       interval: 5s
@@ -27,6 +30,9 @@ services:
     env_file: .env.maintenance
     network_mode: host # TODO: remove after postgres is inside docker
     restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
     logging:
       driver: fluentd
       options:
@@ -35,8 +41,23 @@ services:
         fluentd-async: "true"
         fluentd-max-retries: "5"
 
+  postgres:
+    image: postgres:18-alpine
+    container_name: supanova-server-postgres
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "${POSTGRES_PORT}:5432" # Once node app is removed, we no longer need to expose a port here
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   fluent-bit:
-    image: fluent/fluent-bit:latest
+    image: fluent/fluent-bit:4.2.0
     container_name: fluent-bit
     restart: unless-stopped
     env_file: .env.fluent-bit
