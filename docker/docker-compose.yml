@@ -67,3 +67,6 @@ services:
     volumes:
       - ${HOME}/apps/supanova-infra/docker/fluent-bit/fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf:ro
       - ${HOME}/apps/supanova-infra/docker/fluent-bit/parsers.conf:/fluent-bit/etc/parsers.conf:ro
+
+volumes:
+  postgres_data:
