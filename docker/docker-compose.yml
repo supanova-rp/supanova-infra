@@ -5,7 +5,6 @@ services:
     ports:
       - "${SERVER_PORT}:${SERVER_PORT}"
     env_file: .env.server
-    network_mode: host # TODO: remove after postgres is inside docker
     restart: unless-stopped
     depends_on:
       postgres:
@@ -19,7 +18,7 @@ services:
     logging:
       driver: fluentd
       options:
-        fluentd-address: "localhost:24224" # TODO: change to fluent-bit:24224 after postgres is inside docker
+        fluentd-address: "localhost:24224"
         tag: "{{.Name}}"
         fluentd-async: "true"
         fluentd-max-retries: "5"
@@ -28,7 +27,6 @@ services:
     image: jdgarner/supanova-maintenance:latest
     container_name: supanova-maintenance
     env_file: .env.maintenance
-    network_mode: host # TODO: remove after postgres is inside docker
     restart: unless-stopped
     depends_on:
       postgres:
@@ -36,7 +34,7 @@ services:
     logging:
       driver: fluentd
       options:
-        fluentd-address: "localhost:24224" # TODO: change to fluent-bit:24224 after postgres is inside docker
+        fluentd-address: "localhost:24224"
         tag: "{{.Name}}"
         fluentd-async: "true"
         fluentd-max-retries: "5"
@@ -59,11 +57,9 @@ services:
   fluent-bit:
     image: fluent/fluent-bit:4.2.0
     container_name: fluent-bit
+    network_mode: host
     restart: unless-stopped
     env_file: .env.fluent-bit
-    ports:
-      - "24224:24224" # TODO: remove after postgres is inside docker
-      - "24224:24224/udp"
     volumes:
       - ${HOME}/apps/supanova-infra/docker/fluent-bit/fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf:ro
       - ${HOME}/apps/supanova-infra/docker/fluent-bit/parsers.conf:/fluent-bit/etc/parsers.conf:ro

@@ -1,15 +1,19 @@
 # Supanova Infra
 
 Infrastructure for Supanova Radiation Protection Services learning platform, including:
-- Logging with fluent-bit
+- Running services in docker
 - Provisioning with terraform
 
-## fluent-bit
+## Running services
 
 Run:
 ```
-cd fluent-bit
-docker-compose up -d
+make up
+```
+
+Stop:
+```
+make down
 ```
 
 ## Terraform
