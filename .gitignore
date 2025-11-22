@@ -1,4 +1,4 @@
-fluent-bit/.env
+.env
 
 # Terraform files
 .terraform/
