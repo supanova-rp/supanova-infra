@@ -1,4 +1,7 @@
 .env
+.env.fluent-bit
+.env.maintenance
+.env.server
 
 # Terraform files
 .terraform/
