@@ -3,10 +3,41 @@ data "aws_s3_bucket" "supanova_dev" {
   bucket = "supanova-dev"
 }
 
-# Generate CloudFront public key
+# Generate private key for cloudfront
+resource "tls_private_key" "supanova_dev_cloudfront" {
+  algorithm = "RSA"
+  rsa_bits  = 2048
+}
+
+# Attach private key to secret manager
+# -----------------------------------------------------------
+resource "aws_secretsmanager_secret" "supanova_dev_cloudfront_private_key_v2" {
+  name        = "supanova-dev-cloudfront-private-key-v2"
+  description = "CloudFront private key for signing supanova dev URLs"
+  
+  tags = {
+    Environment = "dev"
+    Project     = "supanova"
+  }
+}
+
+resource "aws_secretsmanager_secret_version" "supanova_dev_cloudfront_private_key_v2" {
+  secret_id     = aws_secretsmanager_secret.supanova_dev_cloudfront_private_key_v2.id
+  secret_string = tls_private_key.supanova_dev_cloudfront.private_key_pem
+}
+# -----------------------------------------------------------
+
+# Use the secret manager generated public key for CloudFront
+resource "aws_cloudfront_public_key" "supanova_dev_v2" {
+  name        = "supanova-dev-public-key-v2"
+  comment     = "Public key for supanova dev"
+  encoded_key = tls_private_key.supanova_dev_cloudfront.public_key_pem
+}
+
+# Use CloudFront public key file (legacy one, will be removed when no longer in use)
 resource "aws_cloudfront_public_key" "supanova_dev" {
   name       = "supanova-dev-public-key"
-  comment    = "Public key for supanova dev"
+  comment    = "Public key for supanova dev (legacy version)"
   encoded_key = file("./cloudfront_supanova_dev_public_key.pem")
 }
 
@@ -14,7 +45,10 @@ resource "aws_cloudfront_public_key" "supanova_dev" {
 resource "aws_cloudfront_key_group" "supanova_dev" {
   name = "supanova-dev-key-group"
   comment = "Key group for supanova dev"
-  items = [aws_cloudfront_public_key.supanova_dev.id]
+  items = [
+    aws_cloudfront_public_key.supanova_dev_v2.id,
+    aws_cloudfront_public_key.supanova_dev.id
+  ]
 }
 
 # CloudFront Origin Access Control
@@ -119,7 +153,12 @@ output "cloudfront_distribution_url" {
   value       = "https://${aws_cloudfront_distribution.supanova_dev.domain_name}"
 }
 
-output "cloudfront_public_key_id" {
-  description = "CloudFront Public Key ID"
+output "cloudfront_public_key_id_legacy" {
+  description = "CloudFront Public Key ID (legacy)"
   value       = aws_cloudfront_public_key.supanova_dev.id
+}
+
+output "cloudfront_public_key_id_v2" {
+  description = "CloudFront Public Key ID (v2)"
+  value       = aws_cloudfront_public_key.supanova_dev_v2.id
 }

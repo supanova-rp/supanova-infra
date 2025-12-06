@@ -128,6 +128,32 @@ resource "aws_iam_policy" "supanova_infra_dev_policy" {
           "cloudfront:DeletePublicKey"
         ]
         Resource = "*"
+      },
+      {
+        Sid    = "SecretsManagerFullAccess"
+        Effect = "Allow"
+        Action = [
+          "secretsmanager:CreateSecret",
+          "secretsmanager:DeleteSecret",
+          "secretsmanager:DescribeSecret",
+          "secretsmanager:GetSecretValue",
+          "secretsmanager:PutSecretValue",
+          "secretsmanager:UpdateSecret",
+          "secretsmanager:TagResource",
+          "secretsmanager:GetResourcePolicy",
+          "secretsmanager:UntagResource"
+        ]
+        Resource = [
+          "arn:aws:secretsmanager:*:*:secret:supanova-dev-*"
+        ]
+      },
+      {
+        Sid    = "SecretsManagerList"
+        Effect = "Allow"
+        Action = [
+          "secretsmanager:ListSecrets"
+        ]
+        Resource = "*"
       }
     ]
   })
