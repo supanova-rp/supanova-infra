@@ -60,7 +60,10 @@ resource "aws_iam_policy" "supanova_infra_prod_policy" {
           "iam:TagUser",
           "iam:UntagUser"
         ]
-        Resource = "arn:aws:iam::*:user/supanova-maintenance-prod"
+        Resource = [
+          "arn:aws:iam::*:user/supanova-maintenance-prod",
+          "arn:aws:iam::*:user/supanova-server-prod"
+        ]
       },
       {
         Sid    = "IAMPolicyManagement"
@@ -76,7 +79,10 @@ resource "aws_iam_policy" "supanova_infra_prod_policy" {
           "iam:SetDefaultPolicyVersion",
           "iam:ListEntitiesForPolicy"
         ]
-        Resource = "arn:aws:iam::*:policy/supanova_maintenance_prod_policy"
+        Resource = [
+          "arn:aws:iam::*:policy/supanova_maintenance_prod_policy",
+          "arn:aws:iam::*:policy/supanova_server_prod_policy"
+        ]
       },
       {
         Sid    = "IAMPolicyAttachment"
@@ -86,7 +92,10 @@ resource "aws_iam_policy" "supanova_infra_prod_policy" {
           "iam:DetachUserPolicy",
           "iam:ListAttachedUserPolicies"
         ]
-        Resource = "arn:aws:iam::*:user/supanova-maintenance-prod"
+        Resource = [
+          "arn:aws:iam::*:user/supanova-maintenance-prod",
+          "arn:aws:iam::*:user/supanova-server-prod"
+        ]
       },
       {
         Sid    = "IAMAccessKeyManagement"
@@ -98,7 +107,10 @@ resource "aws_iam_policy" "supanova_infra_prod_policy" {
           "iam:ListAccessKeys",
           "iam:UpdateAccessKey"
         ]
-        Resource = "arn:aws:iam::*:user/supanova-maintenance-prod"
+        Resource = [
+          "arn:aws:iam::*:user/supanova-maintenance-prod",
+          "arn:aws:iam::*:user/supanova-server-prod"
+        ]
       },
       {
         Sid    = "CloudFront"
