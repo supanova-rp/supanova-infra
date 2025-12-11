@@ -44,32 +44,3 @@ This creates supanova_infra user (if it doesn't already exist) and sets the user
 cd terraform/prod|dev/main
 terraform apply
 ```
-
-
-### EC2 Staging env setup
-
-A staging version of supanova-server can be setup using EC2 with terraform
-
-#### Prerequisites:
-- An ssh key in ~/.ssh/supanova_staging_deploy added as a deploy key in the git repo
-
-#### Creating supanova-infra user:
-```
-cd terraform/staging/init
-terraform init
-bash init.sh
-```
-
-#### Creating the infra:
-
-```
-cd terraform/staging/main
-terraform apply
-```
-
-#### SSH into server:
-
-Copy the public IP output from the previous step
-```
-ssh -i ~/.ssh/supanova_staging_deploy ubuntu@<public_ip>
-```
