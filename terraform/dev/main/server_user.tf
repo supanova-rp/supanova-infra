@@ -4,6 +4,7 @@ resource "aws_iam_user" "supanova_server_dev" {
 
   tags = {
     Environment = "dev"
+    Project     = "supanova"
   }
 }
 
@@ -25,12 +26,12 @@ resource "aws_iam_policy" "supanova_server_dev_policy" {
           "s3:ListBucket"
         ]
         Resource = [
-          "${data.aws_s3_bucket.supanova_dev.arn}",
-          "${data.aws_s3_bucket.supanova_dev.arn}/*"
+          "${aws_s3_bucket.supanova_dev.arn}",
+          "${aws_s3_bucket.supanova_dev.arn}/*"
         ]
       },
       {
-        Sid = "ServerUserSupanovaDevSecretsAccess"
+        Sid    = "ServerUserSupanovaDevSecretsAccess"
         Effect = "Allow"
         Action = [
           "secretsmanager:GetSecretValue"

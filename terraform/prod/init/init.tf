@@ -32,12 +32,32 @@ resource "aws_iam_policy" "supanova_infra_prod_policy" {
         Sid    = "ManageAssetsBucket"
         Effect = "Allow"
         Action = [
-          "s3:GetBucketLocation",
-          "s3:GetBucketPolicy",
-          "s3:GetBucketPolicyStatus",
           "s3:ListBucket",
+          "s3:GetBucketLocation",
+          "s3:GetBucketPolicyStatus",
+          "s3:GetBucketPolicy",
           "s3:PutBucketPolicy",
-          "s3:DeleteBucketPolicy"
+          "s3:DeleteBucketPolicy",
+          "s3:GetBucketAcl",
+          "s3:PutBucketTagging",
+          "s3:GetBucketTagging",
+          "s3:DeleteBucketTagging",
+          "s3:PutBucketPublicAccessBlock",
+          "s3:GetBucketPublicAccessBlock",
+          "s3:DeleteBucketPublicAccessBlock",
+          "s3:GetBucketCORS",
+          "s3:GetBucketWebsite",
+          "s3:GetBucketVersioning",
+          "s3:GetBucketRequestPayment",
+          "s3:GetAccelerateConfiguration",
+          "s3:GetBucketLogging",
+          "s3:GetBucketEncryption",
+          "s3:GetBucketLifecycle",
+          "s3:GetBucketOwnershipControls",
+          "s3:GetLifecycleConfiguration",
+          "s3:GetReplicationConfiguration",
+          "s3:GetEncryptionConfiguration",
+          "s3:GetBucketObjectLockConfiguration"
         ]
         Resource = "arn:aws:s3:::supanova-prod"
       },

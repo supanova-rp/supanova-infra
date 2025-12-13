@@ -26,12 +26,12 @@ resource "aws_iam_policy" "supanova_server_prod_policy" {
           "s3:ListBucket"
         ]
         Resource = [
-          "${data.aws_s3_bucket.supanova_prod.arn}",
-          "${data.aws_s3_bucket.supanova_prod.arn}/*"
+          "${aws_s3_bucket.supanova_prod.arn}",
+          "${aws_s3_bucket.supanova_prod.arn}/*"
         ]
       },
       {
-        Sid = "ServerUserSupanovaProdSecretsAccess"
+        Sid    = "ServerUserSupanovaProdSecretsAccess"
         Effect = "Allow"
         Action = [
           "secretsmanager:GetSecretValue"
