@@ -1,6 +1,20 @@
-# Reference existing S3 Bucket
-data "aws_s3_bucket" "supanova_dev" {
+# Create S3 Bucket
+resource "aws_s3_bucket" "supanova_dev" {
   bucket = "supanova-dev"
+
+  tags = {
+    Environment = "dev"
+    Project     = "supanova"
+  }
+}
+
+# Block public access on S3 bucket
+resource "aws_s3_bucket_public_access_block" "supanova_dev" {
+  bucket                  = aws_s3_bucket.supanova_dev.id
+  block_public_acls       = true
+  ignore_public_acls      = true
+  block_public_policy     = true
+  restrict_public_buckets = true
 }
 
 # Generate private key for cloudfront
@@ -14,7 +28,7 @@ resource "tls_private_key" "supanova_dev_cloudfront" {
 resource "aws_secretsmanager_secret" "supanova_dev_cloudfront_private_key_v2" {
   name        = "supanova-dev-cloudfront-private-key-v2"
   description = "CloudFront private key for signing supanova dev URLs"
-  
+
   tags = {
     Environment = "dev"
     Project     = "supanova"
@@ -36,14 +50,14 @@ resource "aws_cloudfront_public_key" "supanova_dev_v2" {
 
 # Use CloudFront public key file (legacy one, will be removed when no longer in use)
 resource "aws_cloudfront_public_key" "supanova_dev" {
-  name       = "supanova-dev-public-key"
-  comment    = "Public key for supanova dev (legacy version)"
+  name        = "supanova-dev-public-key"
+  comment     = "Public key for supanova dev (legacy version)"
   encoded_key = file("./cloudfront_supanova_dev_public_key.pem")
 }
 
 # Link public key to a key group
 resource "aws_cloudfront_key_group" "supanova_dev" {
-  name = "supanova-dev-key-group"
+  name    = "supanova-dev-key-group"
   comment = "Key group for supanova dev"
   items = [
     aws_cloudfront_public_key.supanova_dev_v2.id,
@@ -67,7 +81,7 @@ resource "aws_cloudfront_distribution" "supanova_dev" {
   comment         = "Distribution for supanova_dev media files"
 
   origin {
-    domain_name              = data.aws_s3_bucket.supanova_dev.bucket_regional_domain_name
+    domain_name              = aws_s3_bucket.supanova_dev.bucket_regional_domain_name
     origin_id                = "S3-supanova-dev"
     origin_access_control_id = aws_cloudfront_origin_access_control.supanova_dev.id
   }
@@ -113,7 +127,7 @@ resource "aws_cloudfront_distribution" "supanova_dev" {
 
 # S3 Bucket Policy to allow CloudFront access
 resource "aws_s3_bucket_policy" "supanova_dev" {
-  bucket = data.aws_s3_bucket.supanova_dev.id
+  bucket = aws_s3_bucket.supanova_dev.id
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -126,7 +140,7 @@ resource "aws_s3_bucket_policy" "supanova_dev" {
           Service = "cloudfront.amazonaws.com"
         }
         Action   = "s3:GetObject"
-        Resource = "${data.aws_s3_bucket.supanova_dev.arn}/*"
+        Resource = "${aws_s3_bucket.supanova_dev.arn}/*"
         Condition = {
           StringEquals = {
             "AWS:SourceArn" = aws_cloudfront_distribution.supanova_dev.arn

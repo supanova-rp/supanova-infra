@@ -5,6 +5,7 @@ resource "aws_s3_bucket" "supanova_db_backup_dev" {
   tags = {
     Name        = "supanova-db-backup-dev"
     Environment = "dev"
+    Project     = "supanova"
   }
 }
 
@@ -30,6 +31,7 @@ resource "aws_iam_user" "supanova_maintenance_dev" {
 
   tags = {
     Environment = "dev"
+    Project     = "supanova"
   }
 }
 
