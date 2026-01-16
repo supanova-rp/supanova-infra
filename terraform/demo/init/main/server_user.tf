@@ -17,7 +17,7 @@ resource "aws_iam_policy" "supanova_server_demo_policy" {
     Version = "2012-10-17"
     Statement = [
       {
-        Sid    = "ServerUserSupanovaDevS3Access"
+        Sid    = "ServerUserSupanovaDemoS3Access"
         Effect = "Allow"
         Action = [
           "s3:PutObject",
@@ -31,7 +31,7 @@ resource "aws_iam_policy" "supanova_server_demo_policy" {
         ]
       },
       {
-        Sid    = "ServerUserSupanovaDevSecretsAccess"
+        Sid    = "ServerUserSupanovaDemoSecretsAccess"
         Effect = "Allow"
         Action = [
           "secretsmanager:GetSecretValue"
