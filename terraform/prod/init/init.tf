@@ -32,6 +32,7 @@ resource "aws_iam_policy" "supanova_infra_prod_policy" {
         Sid    = "ManageAssetsBucket"
         Effect = "Allow"
         Action = [
+          "s3:CreateBucket",
           "s3:ListBucket",
           "s3:GetBucketLocation",
           "s3:GetBucketPolicyStatus",
