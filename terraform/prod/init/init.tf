@@ -10,7 +10,7 @@ terraform {
 
 provider "aws" {
   region  = "eu-west-2"
-  profile = "jamie"
+  profile = "terraform"
 }
 
 # Create the IAM user
