@@ -19,7 +19,6 @@ make down
 ## Terraform
 
 Currently the cloudfront setup is managed by terraform (see terraform/prod).
-The S3 bucket and S3 user are currently not managed by terraform but could be in future.
 
 #### Prerequisites:
 - AWS CLI

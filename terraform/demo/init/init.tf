@@ -14,16 +14,16 @@ provider "aws" {
 }
 
 # Create the IAM user
-resource "aws_iam_user" "supanova_infra_dev_user" {
-  name = "supanova-infra-dev"
+resource "aws_iam_user" "supanova_infra_demo_user" {
+  name = "supanova-infra-demo"
   tags = {
-    Purpose = "Supanova Dev Provisioning"
+    Purpose = "Supanova Demo Provisioning"
   }
 }
 
-resource "aws_iam_policy" "supanova_infra_dev_policy" {
-  name        = "supanova_infra_dev_policy"
-  description = "Policy for managing Supanova Dev Infra"
+resource "aws_iam_policy" "supanova_infra_demo_policy" {
+  name        = "supanova_infra_demo_policy"
+  description = "Policy for managing Supanova Demo Infra"
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -59,7 +59,7 @@ resource "aws_iam_policy" "supanova_infra_dev_policy" {
           "s3:GetEncryptionConfiguration",
           "s3:GetBucketObjectLockConfiguration"
         ]
-        Resource = "arn:aws:s3:::supanova-dev"
+        Resource = "arn:aws:s3:::supanova-demo"
       },
       {
         Sid    = "ManageBackupBucket"
@@ -67,7 +67,7 @@ resource "aws_iam_policy" "supanova_infra_dev_policy" {
         Action = [
           "s3:*"
         ]
-        Resource = "arn:aws:s3:::supanova-db-backup-dev"
+        Resource = "arn:aws:s3:::supanova-db-backup-demo"
       },
       {
         Sid    = "IAMUserManagement"
@@ -81,8 +81,8 @@ resource "aws_iam_policy" "supanova_infra_dev_policy" {
           "iam:UntagUser"
         ]
         Resource = [
-          "arn:aws:iam::*:user/supanova-maintenance-dev",
-          "arn:aws:iam::*:user/supanova-server-dev"
+          "arn:aws:iam::*:user/supanova-maintenance-demo",
+          "arn:aws:iam::*:user/supanova-server-demo"
         ]
       },
       {
@@ -100,8 +100,8 @@ resource "aws_iam_policy" "supanova_infra_dev_policy" {
           "iam:ListEntitiesForPolicy"
         ]
         Resource = [
-          "arn:aws:iam::*:policy/supanova_maintenance_dev_policy",
-          "arn:aws:iam::*:policy/supanova_server_dev_policy"
+          "arn:aws:iam::*:policy/supanova_maintenance_demo_policy",
+          "arn:aws:iam::*:policy/supanova_server_demo_policy"
         ]
       },
       {
@@ -113,8 +113,8 @@ resource "aws_iam_policy" "supanova_infra_dev_policy" {
           "iam:ListAttachedUserPolicies"
         ]
         Resource = [
-          "arn:aws:iam::*:user/supanova-maintenance-dev",
-          "arn:aws:iam::*:user/supanova-server-dev"
+          "arn:aws:iam::*:user/supanova-maintenance-demo",
+          "arn:aws:iam::*:user/supanova-server-demo"
         ]
       },
       {
@@ -128,8 +128,8 @@ resource "aws_iam_policy" "supanova_infra_dev_policy" {
           "iam:UpdateAccessKey"
         ]
         Resource = [
-          "arn:aws:iam::*:user/supanova-maintenance-dev",
-          "arn:aws:iam::*:user/supanova-server-dev"
+          "arn:aws:iam::*:user/supanova-maintenance-demo",
+          "arn:aws:iam::*:user/supanova-server-demo"
         ]
       },
       {
@@ -176,7 +176,7 @@ resource "aws_iam_policy" "supanova_infra_dev_policy" {
           "secretsmanager:UntagResource"
         ]
         Resource = [
-          "arn:aws:secretsmanager:*:*:secret:supanova-dev-*"
+          "arn:aws:secretsmanager:*:*:secret:supanova-demo-*"
         ]
       },
       {
@@ -193,11 +193,11 @@ resource "aws_iam_policy" "supanova_infra_dev_policy" {
 
 # Attach policy to the user
 resource "aws_iam_user_policy_attachment" "infra_user_attach" {
-  user       = aws_iam_user.supanova_infra_dev_user.name
-  policy_arn = aws_iam_policy.supanova_infra_dev_policy.arn
+  user       = aws_iam_user.supanova_infra_demo_user.name
+  policy_arn = aws_iam_policy.supanova_infra_demo_policy.arn
 }
 
 # Create an access key for the user
-resource "aws_iam_access_key" "supanova_infra_dev_user_key" {
-  user = aws_iam_user.supanova_infra_dev_user.name
+resource "aws_iam_access_key" "supanova_infra_demo_user_key" {
+  user = aws_iam_user.supanova_infra_demo_user.name
 }
