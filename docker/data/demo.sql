@@ -9,7 +9,10 @@ VALUES
 INSERT INTO public.quizsections (id, "position", course_id) 
 VALUES
   ('f533d5d2-3273-4674-a4c7-9ab99f4a6e64', 1, '6cc31931-d4b9-1b97-f91d-40b1c8d83553'),
-  ('9e21853b-afc7-4d30-b9de-f56261ed7e94', 2, '6cc31931-d4b9-1b97-f91d-40b1c8d83553'),
+  ('9e21853b-afc7-4d30-b9de-f56261ed7e94', 2, '6cc31931-d4b9-1b97-f91d-40b1c8d83553');
+
+INSERT INTO public.quizquestions (id, question, "position", quiz_section_id, is_multi_answer) 
+VALUES 
   ('08caca31-4079-45c5-9e4a-17f75758c93f', 'How many days in a week?', 0, 'f533d5d2-3273-4674-a4c7-9ab99f4a6e64', false),
   ('efb38fd0-34a5-4b41-b003-bce496e7c17e', 'Days in year?', 1, 'f533d5d2-3273-4674-a4c7-9ab99f4a6e64', false),
   ('e4f18c90-8fd3-4226-8ad0-5e8988ae38a0', 'Hours in day?', 0, '9e21853b-afc7-4d30-b9de-f56261ed7e94', false);
