@@ -1,4 +1,4 @@
 services:
   postgres:
     volumes:
-      - ./demo-data.sql:/docker-entrypoint-initdb.d/demo-data.sql:ro
+      - ${HOME}/apps/supanova-infra/docker/data/demo.sql:/docker-entrypoint-initdb.d/demo.sql:ro
