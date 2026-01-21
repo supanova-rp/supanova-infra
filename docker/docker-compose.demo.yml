@@ -1,4 +1,0 @@
-services:
-  postgres:
-    volumes:
-      - ./data/demo.sql:/docker-entrypoint-initdb.d/demo.sql:ro

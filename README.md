@@ -6,11 +6,6 @@ Infrastructure for Supanova Radiation Protection Services learning platform, inc
 
 ## Running services
 
-Run on demo environment:
-```
-make up-demo
-```
-
 Run:
 ```
 make up
@@ -19,6 +14,12 @@ make up
 Stop:
 ```
 make down
+```
+
+## Init demo data
+Run:
+```
+docker exec -it supanova-server-postgres psql -h <host> -p <port> -U <user> -d <database> -f ./data/demo.sql
 ```
 
 ## Terraform
