@@ -19,7 +19,7 @@ make down
 ## Init demo data
 Run:
 ```
-docker exec -it supanova-server-postgres psql -h <host> -p <port> -U <user> -d <database> -f ./data/demo.sql
+docker exec -i supanova-server-postgres psql -h <host> -p <port> -U <user> -d <database> < ./data/demo.sql
 ```
 
 ## Terraform
