@@ -6,6 +6,11 @@ Infrastructure for Supanova Radiation Protection Services learning platform, inc
 
 ## Running services
 
+Run on demo environment:
+```
+make up-demo
+```
+
 Run:
 ```
 make up
