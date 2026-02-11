@@ -69,7 +69,7 @@ services:
     image: grafana/grafana:latest
     container_name: supanova-server-grafana
     ports:
-      - "${GRAFANA_PORT}:${GRAFANA_PORT}"
+      - "${GRAFANA_PORT}:3000"
     depends_on:
       - prometheus
 
