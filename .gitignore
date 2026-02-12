@@ -2,7 +2,6 @@
 .env.fluent-bit
 .env.maintenance
 .env.server
-.env.observability
 
 # Terraform files
 .terraform/
