@@ -63,6 +63,7 @@ services:
       - prometheus_data:/prometheus
     ports:
       - "${PROMETHEUS_PORT}:9090"
+    restart: unless-stopped
   
   grafana:
     image: grafana/grafana:latest
@@ -71,6 +72,17 @@ services:
       - "${GRAFANA_PORT}:3000"
     depends_on:
       - prometheus
+    restart: unless-stopped
+    environment:    
+      # Disabled for memory effciency
+      - GF_ANALYTICS_REPORTING_ENABLED=false
+      - GF_ANALYTICS_CHECK_FOR_UPDATES=false
+      - GF_SNAPSHOTS_EXTERNAL_ENABLED=false
+      
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USER:-admin}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-admin} 
+    volumes:
+      - grafana_data:/var/lib/grafana
 
   fluent-bit:
     image: fluent/fluent-bit:4.2.0
@@ -85,3 +97,4 @@ services:
 volumes:
   postgres_data:
   prometheus_data:
+  grafana_data:
