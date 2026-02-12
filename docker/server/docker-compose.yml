@@ -62,8 +62,8 @@ services:
     restart: unless-stopped
     env_file: .env.fluent-bit
     volumes:
-      - ${HOME}/apps/supanova-infra/docker/fluent-bit/fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf:ro
-      - ${HOME}/apps/supanova-infra/docker/fluent-bit/parsers.conf:/fluent-bit/etc/parsers.conf:ro
+      - ${HOME}/apps/supanova-infra/docker/server/fluent-bit/fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf:ro
+      - ${HOME}/apps/supanova-infra/docker/server/fluent-bit/parsers.conf:/fluent-bit/etc/parsers.conf:ro
 
 volumes:
   postgres_data:
