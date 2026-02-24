@@ -67,4 +67,5 @@ services:
 
 volumes:
   postgres_data:
+    external: true # volume created manually (not via docker compose)
     name: supanova_postgres_data
