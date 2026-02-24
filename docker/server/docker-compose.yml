@@ -67,3 +67,5 @@ services:
 
 volumes:
   postgres_data:
+    external: true
+    name: supanova_postgres_data
