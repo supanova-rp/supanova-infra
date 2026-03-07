@@ -11,3 +11,10 @@ scrape_configs:
       - targets: ["10.106.0.2:9100"]
         labels:
           env: "demo"
+
+      # Uses the public IP of the production server because it exists on a different
+      # Digital Ocean team (and therefore is in a different VPC and can't use the private IP)
+      # This port is only exposed to the prometheus server IP on the production server firewall
+      - targets: ["209.97.130.92:9100"]
+        labels:
+          env: "production"
